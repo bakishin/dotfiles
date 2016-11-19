@@ -1,0 +1,16 @@
+" チェックを実行(python)
+elseif &filetype == "python"
+let l:tmp = system("pyflakes ".bufname(""))
+
+" エラーがあった場合
+if ! (l:tmp == "" )
+let g:is_error = 1
+let g:status = split(l:tmp, '\n')
+silent exec 'set statusline=%{g:status[0]}%=%c,%l%11p%%'
+silent exec l:ecol
+return
+else
+let g:is_error = 0
+endif
+
+endif

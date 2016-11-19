@@ -1,0 +1,63 @@
+set nobackup
+set shiftwidth=4
+set ambiwidth=double
+set softtabstop=4
+set tabstop=4
+set expandtab
+set showmatch
+set magic
+set ignorecase
+set smartcase
+set hlsearch
+set incsearch
+syntax on
+set history=80
+set encoding=utf-8
+set fileencodings=utf-8
+"colorscheme desert
+colorscheme mycolor
+set autoindent
+set tabstop=4
+
+"----------------------------------------------------------+
+" ステータスライン |
+"----------------------------------------------------------+
+
+" ステータスラインを常に表示,色変更
+set laststatus=2
+"hi StatusLine ctermfg=White ctermbg=Blue cterm=none
+hi StatusLine ctermfg=White ctermbg=DarkBlue cterm=none
+au InsertEnter * hi StatusLine ctermfg=Black ctermbg=yellow cterm=none
+au InsertLeave * hi StatusLine ctermfg=White ctermbg=DarkGreen cterm=none
+set statusline=%F:\ \ %{GetFunc()}%=%l/%L%11p%%1
+
+" function行の取得用の関数
+function! GetFunc()
+let s:path = expand('%:p')
+let s:ext = expand('%:e')
+if s:ext == "php"
+let start = search("function",'bn')
+elseif &filetype == "vim"
+let start = search("function!",'bn')
+elseif &filetype == "py"
+let start = search("def",'bn')
+else
+let start = ""
+endif
+
+let lines = getline(start)
+return lines
+endfunction
+
+" エラー時のステータスライン変更用関数
+function! ErrorCheckStatusline()
+
+" エラー時の色定義
+let l:ecol = 'highlight StatusLine ctermfg=Yellow ctermbg=Red cterm=none'
+
+if ! exists('g:is_error')
+" 通常時の色定義
+let s:fg = synIDattr( hlID( "StatusLine" ) , "fg" )
+let s:bg = synIDattr( hlID( "StatusLine" ) , "bg" )
+let g:ncol = 'highlight StatusLine ctermfg='.s:fg.' ctermbg='.s:bg.' cterm=none'
+endif

@@ -1,0 +1,21 @@
+alias where="command -v"
+alias j="jobs -l"
+
+case "${OSTYPE}" in
+freebsd*|darwin*)
+  alias ls="ls -G -w"
+  ;;
+linux*)
+  alias ls="ls --color"
+  ;;
+esac
+
+alias lf="ls -F"
+alias ls='ls -G'
+alias ll='ls -altG'
+
+alias du="du -h"
+alias df="df -h"
+
+alias su="su -l"
+
